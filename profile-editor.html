@@ -13,10 +13,11 @@
     <div class="container">
         <div class="header">
             <div class="header-top">
-                <i data-lucide="chevron-left" size="32" id="backButton"></i>
+                <i data-lucide="chevron-left" size="32"
+                 id="backButton"></i>
             </div>
             <div class="title-container">
-                <h1 class="main-title">Defina o título e subtítulo do seu Creator Kit</h1>
+                <h1 class="main-title">Personalize o seu Creator Kit</h1>
                 <p class="subtitle">Estas são as primeiras informações que as pessoas irão ler em sua página.</p>
             </div>
         </div>
@@ -27,6 +28,11 @@
             </div>
             <h2 class="preview-title" id="previewTitle">Este é o meu título</h2>
             <p class="preview-subtitle" id="previewSubtitle">Este é o meu subtítulo</p>
+            
+            <div class="linkButton" id="linkButton" style="display: none;">
+                <span class="button-text" id="link-title-input">Teste</span>
+            </div>
+            
         </div>
 
         <div class="input-container">
@@ -50,9 +56,9 @@
                 <div class="drag-dot"></div>
             </div>
             <div class="link-content">
-              <input type="text" class="link-title-input" value="Insira aqui o título" />
-              <input type="url" class="link-url-input" value="Insira aqui o seu link" />
-          </div>
+                <input type="text" class="link-title-input" id="linkTitleInput" value="Insira aqui o título" />
+                <input type="url" class="link-url-input" id="linkUrlInput" value="Insira aqui o seu link" />
+            </div>
             <div class="toggle">
                 <input type="checkbox" class="toggle-input" id="toggleSwitch" />
                 <label class="toggle-label" for="toggleSwitch">
@@ -73,7 +79,18 @@
 
         document.getElementById('backButton').addEventListener('click', function() {
             window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
-        })
+        });
+
+        document.getElementById('linkTitleInput').addEventListener('input', function() {
+            document.getElementById('link-title-input').textContent = this.value;
+        });
+
+        document.getElementById('linkButton').addEventListener('click', function() {
+            const linkUrl = document.getElementById('linkUrlInput').value;
+            if (linkUrl) {
+                window.open(linkUrl, '_blank'); // Open the link in a new tab
+            }
+        });
 
         document.getElementById('titleInput').addEventListener('input', function() {
             document.getElementById('previewTitle').textContent = this.value;
@@ -85,7 +102,17 @@
 
         document.getElementById('continueButton').addEventListener('click', function() {
             window.location.href = 'link-tree-editor.html';
-        })
+        });
+
+        // Toggle button visibility based on toggle input
+        document.getElementById('toggleSwitch').addEventListener('change', function() {
+            const linkButton = document.getElementById('linkButton');
+            if (this.checked) {
+                linkButton.style.display = 'flex'; // Show the button
+            } else {
+                linkButton.style.display = 'none'; // Hide the button
+            }
+        });
     </script>
 </body>
 </html>
