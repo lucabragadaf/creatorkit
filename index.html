@@ -11,15 +11,22 @@
 </head>
 <body>
     <div class="container">
+
         <div class="header">
+
             <div class="header-top">
-                <i data-lucide="chevron-left" size="32"
-                 id="backButton"></i>
+                <i data-lucide="chevron-left" class="icon-small" id="backButton"></i>
+                 <div class="badge" id="linkPreviewButton" style="margin-left: auto;">
+                    <i data-lucide="link" class="icon-small"></i>
+                    <span id="linkPreviewText">brandlovrs.me/</span>
+                </div>
             </div>
+
             <div class="title-container">
                 <h1 class="main-title">Personalize o seu Creator Kit</h1>
                 <p class="subtitle">Estas são as primeiras informações que as pessoas irão ler em sua página.</p>
             </div>
+
         </div>
 
         <div class="preview-card">
@@ -28,8 +35,8 @@
                 <img src="placeholder.png" alt="Profile-image">
             </div>
 
-            <h2 class="preview-title" id="previewTitle">Este é o meu título</h2>
-            <p class="preview-subtitle" id="previewSubtitle">Este é o meu subtítulo</p>
+            <h2 class="preview-title" id="previewTitle">Nome</h2>
+            <p class="preview-subtitle" id="previewSubtitle">Descrição</p>
             
             <div class="linkButton" id="linkButton" style="display: none;">
                 <span class="button-text" id="link-title-input">Teste</span>
@@ -41,12 +48,12 @@
 
             <div class="input-field">
                 <p class="input-label">Título</p>
-                <input type="text" class="input-value" id="titleInput" value="Este é o meu título">
+                <input type="text" class="input-value" id="titleInput" value="Insira aqui o seu nome">
             </div>
 
             <div class="input-field">
                 <p class="input-label">Subtítulo</p>
-                <input type="text" class="input-value" id="subtitleInput" value="Este é o meu subtítulo">
+                <input type="text" class="input-value" id="subtitleInput" value="Insira aqui a sua descrição">
             </div>
 
             <div class="button" id="addLinkButton">
@@ -55,7 +62,7 @@
 
             <div class="input-field">
                 <p class="input-label">Link personalizado</p>
-                <input type="text" class="input-value" id="customLInkInput" value="Ex: /@lucabragaf">
+                <input type="text" class="input-value" id="customLinkInput" value="Insira aqui o seu username">
             </div>
 
             <div class="button" id="publishButton">
@@ -66,13 +73,25 @@
  
     </div>
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+
+        document.getElementById('linkPreviewButton').onclick = function() {
+            const finalURL = localStorage.getItem('customLink');
+            if (finalURL) {
+                window.open(finalURL, '_blank'); // Open the URL in a new tab
+            } else {
+                alert('Por favor, insira um link personalizado antes de publicar.'); // Alert if no link is set
+            }
+        };
 
         // Load saved title, subtitle, and links from localStorage
         document.addEventListener('DOMContentLoaded', function() {
             const savedTitle = localStorage.getItem('title');
             const savedSubtitle = localStorage.getItem('subtitle');
             const savedLinks = JSON.parse(localStorage.getItem('links')) || [];
+            const savedCustomLink = localStorage.getItem('customLink'); // Retrieve custom link
 
             if (savedTitle) {
                 document.getElementById('titleInput').value = savedTitle;
@@ -88,6 +107,11 @@
             savedLinks.forEach(link => {
                 addLinkCard(link.title, link.url, link.visible);
             });
+
+            // Set the custom link input value
+            if (savedCustomLink) {
+                document.getElementById('customLinkInput').value = savedCustomLink; // Set custom link input
+            }
         });
 
         // Update preview fields and save to localStorage when input values change
@@ -212,11 +236,8 @@
     }
 
     // Generate the unique URL
-    const baseURL = 'https://brandlovrs.me/@';
+    const baseURL = 'https://brandlovrs.me/';
     const finalURL = baseURL + encodeURIComponent(customLink);
-
-    // Save the custom link and other data in localStorage
-    localStorage.setItem('customLink', finalURL);
 
     // Display the result
     alert(`Seu Media Kit está disponível em: ${finalURL}`);
@@ -240,6 +261,18 @@ function handleDrop(e) {
         this.parentNode.insertBefore(draggedCard, this);
     }
 }
+
+document.getElementById('customLinkInput').addEventListener('input', function() {
+    const customLink = this.value.trim();
+    const baseURL = 'https://brandlovrs.me/';
+    const finalURL = baseURL + encodeURIComponent(customLink);
+    
+    // Update the badge text based on the input
+    document.getElementById('linkPreviewText').textContent = customLink ? `brandlovrs.me/${customLink}` : 'brandlovrs.me/';
+    
+    // Save custom link to localStorage
+    localStorage.setItem('customLink', finalURL); // Store the final URL
+});
 
     </script>
 </body>

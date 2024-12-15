@@ -34,9 +34,31 @@ body {
 .header-top {
     display: flex;
     justify-content: space-between;
+    display: flex;
     align-items: center;
     margin-bottom: 24px;
     color: #6E7191;
+}
+
+.badge {
+    background: #F9FAFB;
+    border: 1px solid #D9DBE8;
+    border-radius: 9999px;
+    padding: 2px 8px;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.badge span {
+    color: #4B5562;
+    font-size: 12px;
+}
+
+.icon-small {
+    width: 12px; /* Set your desired width */
+    height: 12px; /* Set your desired height */
+    margin-right: 4px;
 }
 
 .title-container {
