@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Explaining</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <i data-lucide="chevron-left" size="32" id="backButton"></i>
+            </div>
+            <div class="title-container">
+                <h1 class="main-title">Defina o título e subtítulo do seu Creator Kit</h1>
+                <p class="subtitle">Estas são as primeiras informações que as pessoas irão ler em sua página.</p>
+            </div>
+        </div>
+
+        <div class="preview-card">
+            <div class="profile-image">
+                <img src="placeholder.png" alt="Profile-image">
+            </div>
+            <h2 class="preview-title" id="previewTitle">Este é o meu título</h2>
+            <p class="preview-subtitle" id="previewSubtitle">Este é o meu subtítulo</p>
+        </div>
+
+        <div class="input-container">
+            <div class="input-field">
+                <p class="input-label">Título</p>
+                <input type="text" class="input-value" id="titleInput" value="Este é o meu título">
+            </div>
+            <div class="input-field">
+                <p class="input-label">Subtítulo</p>
+                <input type="text" class="input-value" id="subtitleInput" value="Este é o meu subtítulo">
+            </div>
+        </div>
+
+        <div class="link-card">
+            <div class="drag-handle">
+                <div class="drag-dot"></div>
+                <div class="drag-dot"></div>
+                <div class="drag-dot"></div>
+                <div class="drag-dot"></div>
+                <div class="drag-dot"></div>
+                <div class="drag-dot"></div>
+            </div>
+            <div class="link-content">
+              <input type="text" class="link-title-input" value="Insira aqui o título" />
+              <input type="url" class="link-url-input" value="Insira aqui o seu link" />
+          </div>
+            <div class="toggle">
+                <input type="checkbox" class="toggle-input" id="toggleSwitch" />
+                <label class="toggle-label" for="toggleSwitch">
+                    <span class="toggle-handle"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="button" id="continueButton">
+            <span class="button-text">Continuar</span>
+        </div>
+
+    </div>
+    <script>
+        lucide.createIcons();
+
+        // Update preview fields when input values change
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
+        })
+
+        document.getElementById('titleInput').addEventListener('input', function() {
+            document.getElementById('previewTitle').textContent = this.value;
+        });
+
+        document.getElementById('subtitleInput').addEventListener('input', function() {
+            document.getElementById('previewSubtitle').textContent = this.value;
+        });
+
+        document.getElementById('continueButton').addEventListener('click', function() {
+            window.location.href = 'link-tree-editor.html';
+        })
+    </script>
+</body>
+</html>
