@@ -46,72 +46,135 @@
             </div>
         </div>
 
-        <div class="link-card">
-            <div class="drag-handle">
-                <div class="drag-dot"></div>
-                <div class="drag-dot"></div>
-                <div class="drag-dot"></div>
-                <div class="drag-dot"></div>
-                <div class="drag-dot"></div>
-                <div class="drag-dot"></div>
-            </div>
-            <div class="link-content">
-                <input type="text" class="link-title-input" id="linkTitleInput" value="Insira aqui o título" />
-                <input type="url" class="link-url-input" id="linkUrlInput" value="Insira aqui o seu link" />
-            </div>
-            <div class="toggle">
-                <input type="checkbox" class="toggle-input" id="toggleSwitch" />
-                <label class="toggle-label" for="toggleSwitch">
-                    <span class="toggle-handle"></span>
-                </label>
-            </div>
-        </div>
-
-        <div class="button" id="continueButton">
-            <span class="button-text">Continuar</span>
+        <div class="button" id="addLinkButton">
+            <span class="button-text">Adicionar link</span>
         </div>
 
     </div>
     <script>
         lucide.createIcons();
 
-        // Update preview fields when input values change
+        // Load saved title, subtitle, and links from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTitle = localStorage.getItem('title');
+            const savedSubtitle = localStorage.getItem('subtitle');
+            const savedLinks = JSON.parse(localStorage.getItem('links')) || [];
 
-        document.getElementById('backButton').addEventListener('click', function() {
-            window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
-        });
-
-        document.getElementById('linkTitleInput').addEventListener('input', function() {
-            document.getElementById('link-title-input').textContent = this.value;
-        });
-
-        document.getElementById('linkButton').addEventListener('click', function() {
-            const linkUrl = document.getElementById('linkUrlInput').value;
-            if (linkUrl) {
-                window.open(linkUrl, '_blank'); // Open the link in a new tab
+            if (savedTitle) {
+                document.getElementById('titleInput').value = savedTitle;
+                document.getElementById('previewTitle').textContent = savedTitle;
             }
+
+            if (savedSubtitle) {
+                document.getElementById('subtitleInput').value = savedSubtitle;
+                document.getElementById('previewSubtitle').textContent = savedSubtitle;
+            }
+
+            // Load saved links
+            savedLinks.forEach(link => {
+                addLinkCard(link.title, link.url, link.visible);
+            });
         });
 
+        // Update preview fields and save to localStorage when input values change
         document.getElementById('titleInput').addEventListener('input', function() {
             document.getElementById('previewTitle').textContent = this.value;
+            localStorage.setItem('title', this.value); // Save title to localStorage
         });
 
         document.getElementById('subtitleInput').addEventListener('input', function() {
             document.getElementById('previewSubtitle').textContent = this.value;
+            localStorage.setItem('subtitle', this.value); // Save subtitle to localStorage
         });
 
-        document.getElementById('continueButton').addEventListener('click', function() {
-            window.location.href = 'link-tree-editor.html';
+        document.getElementById('addLinkButton').addEventListener('click', function() {
+            addLinkCard(); // Call addLinkCard without parameters
         });
 
-        // Toggle button visibility based on toggle input
-        document.getElementById('toggleSwitch').addEventListener('change', function() {
-            const linkButton = document.getElementById('linkButton');
-            if (this.checked) {
-                linkButton.style.display = 'flex'; // Show the button
-            } else {
-                linkButton.style.display = 'none'; // Hide the button
-            }
+        function addLinkCard(title = "Insira aqui o título", url = "Insira aqui o seu link", visible = false) {
+            const linkCard = document.createElement('div');
+            linkCard.className = 'link-card';
+            linkCard.innerHTML = `
+                <div class="drag-handle">
+                    <div class="drag-dot"></div>
+                    <div class="drag-dot"></div>
+                    <div class="drag-dot"></div>
+                    <div class="drag-dot"></div>
+                    <div class="drag-dot"></div>
+                    <div class="drag-dot"></div>
+                </div>
+                <div class="link-content">
+                    <input type="text" class="link-title-input" value="${title}" />
+                    <input type="url" class="link-url-input" value="${url}" />
+                </div>
+                <div class="toggle">
+                    <input type="checkbox" class="toggle-input" id="toggleInput-${Date.now()}" ${visible ? 'checked' : ''} />
+                    <label class="toggle-label" for="toggleInput-${Date.now()}">
+                        <span class="toggle-handle"></span>
+                    </label>
+                </div>
+            `;
+
+            const linkTitleInput = linkCard.querySelector('.link-title-input');
+            const linkUrlInput = linkCard.querySelector('.link-url-input');
+            const toggleInput = linkCard.querySelector('.toggle-input');
+
+            // Create a new button for this link card
+            const linkButton = document.createElement('div');
+            linkButton.className = 'linkButton';
+            linkButton.style.display = visible ? 'flex' : 'none';
+            linkButton.innerHTML = `<span class="button-text">${linkTitleInput.value}</span>`;
+            document.querySelector('.preview-card').appendChild(linkButton);
+
+            // Update link button text and URL when inputs change
+            linkTitleInput.addEventListener('input', function() {
+                linkButton.querySelector('.button-text').textContent = this.value; // Update the button text
+                saveLinks(); // Save links to localStorage
+            });
+
+            linkUrlInput.addEventListener('input', function() {
+                const linkUrl = this.value;
+                toggleInput.checked ? linkButton.onclick = function() {
+                    window.open(linkUrl, '_blank'); // Update the link URL
+                } : null;
+                saveLinks(); // Save links to localStorage
+            });
+
+            toggleInput.addEventListener('change', function() {
+                if (this.checked) {
+                    linkButton.style.display = 'flex'; // Show the button
+                    linkButton.onclick = function() {
+                        window.open(linkUrlInput.value, '_blank'); // Open the link in a new tab
+                    };
+                } else {
+                    linkButton.style.display = 'none'; // Hide the button
+                }
+                saveLinks(); // Save links to localStorage
+            });
+
+            const addLinkButton = document.getElementById('addLinkButton');
+            addLinkButton.parentNode.insertBefore(linkCard, addLinkButton); // Insert the new link card above the button
+
+            // Save links to localStorage
+            saveLinks();
+        }
+
+        function saveLinks() {
+            const links = Array.from(document.querySelectorAll('.link-card')).map(linkCard => {
+                const titleInput = linkCard.querySelector('.link-title-input');
+                const urlInput = linkCard.querySelector('.link-url-input');
+                const toggleInput = linkCard.querySelector('.toggle-input');
+                return {
+                    title: titleInput.value,
+                    url: urlInput.value,
+                    visible: toggleInput.checked
+                };
+            });
+            localStorage.setItem('links', JSON.stringify(links)); // Save links to localStorage
+        }
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
         });
     </script>
 </body>
