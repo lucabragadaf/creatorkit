@@ -34,7 +34,6 @@ body {
 .header-top {
     display: flex;
     justify-content: space-between;
-    display: flex;
     align-items: center;
     margin-bottom: 24px;
     color: #6E7191;
@@ -56,8 +55,9 @@ body {
 }
 
 .icon-small {
-    width: 12px; /* Set your desired width */
-    height: 12px; /* Set your desired height */
+    width: 14px; /* Set your desired width */
+    height: 14px; /* Set your desired height */
+    padding: 1px 1px;
     margin-right: 4px;
 }
 
