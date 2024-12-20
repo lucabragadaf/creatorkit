@@ -1,14 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feature Explaining</title>
+    <title>Creator Kit</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
 </head>
+
 <body>
     <div class="container">
 
@@ -70,12 +75,93 @@
             </div>  
                
         </div>
- 
+
+        <div class="button" id="saveButton">
+            <span class="button-text">Salvar</span>
+        </div>
+
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpHjE_Qj5U6vodewnu2YJ8Ewur83RXmt4",
+            authDomain: "creatorkit-304c3.firebaseapp.com",
+            projectId: "creatorkit-304c3",
+            storageBucket: "creatorkit-304c3.firebasestorage.app",
+            messagingSenderId: "1037017138316",
+            appId: "1:1037017138316:web:6b7c534406e1704d3267a9",
+            measurementId: "G-7J6G00E485"
+            
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+            // Function to save data to Firestore
+    function saveDataToFirestore(title, subtitle, links, username, kit_url) {
+        // Check for undefined values
+        if (!title || !subtitle || !links || !username || !kit_url) {
+            console.error("One or more fields are undefined. Cannot save to Firestore.");
+            return; // Exit the function if any field is undefined
+        }
+
+        const docRef = collection(db, "creator-kits"); // Ensure this is your collection name
+        addDoc(docRef, {
+            title: title,
+            subtitle: subtitle,
+            links: links,
+            username: username, // Save the username
+            kit_url: kit_url // Save the generated kit URL
+        }).then(() => {
+            console.log("Data saved successfully!");
+        }).catch((error) => {
+            console.error("Error saving data: ", error);
         });
+    }
+
+        // Function to retrieve data from Firestore
+        async function getData() {
+            const querySnapshot = await getDocs(collection(db, "creator-kits"));
+            
+            // Clear existing link cards before adding new ones
+            const linkCardsContainer = document.querySelector('.preview-card');
+            const existingTitle = document.getElementById('previewTitle').textContent;
+            const existingSubtitle = document.getElementById('previewSubtitle').textContent;
+
+            // Clear only the link cards
+            const linkCards = linkCardsContainer.querySelectorAll('.link-card');
+            linkCards.forEach(card => card.remove()); // Remove existing link cards
+
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                console.log("Retrieved document:", data);
+                
+                // Update your UI with the retrieved data
+                document.getElementById('titleInput').value = data.title;
+                document.getElementById('previewTitle').textContent = data.title || existingTitle; // Keep existing if empty
+                document.getElementById('subtitleInput').value = data.subtitle;
+                document.getElementById('previewSubtitle').textContent = data.subtitle || existingSubtitle; // Keep existing if empty
+
+                // If you have links, you can loop through them and add link cards
+                if (data.links) {
+                    data.links.forEach(link => {
+                        addLinkCard(link.title, link.url, link.visible);
+                    });
+                }
+            });
+        }
+
+        // Your existing JavaScript code goes here...
+        lucide.createIcons();
 
         document.getElementById('linkPreviewButton').onclick = function() {
             const finalURL = localStorage.getItem('customLink');
@@ -88,6 +174,7 @@
 
         // Load saved title, subtitle, and links from localStorage
         document.addEventListener('DOMContentLoaded', function() {
+            getData(); // Call getData to retrieve data from Firestore
             const savedTitle = localStorage.getItem('title');
             const savedSubtitle = localStorage.getItem('subtitle');
             const savedLinks = JSON.parse(localStorage.getItem('links')) || [];
@@ -208,40 +295,61 @@
         }
 
         function saveLinks() {
-            const links = Array.from(document.querySelectorAll('.link-card')).map(linkCard => {
-                const titleInput = linkCard.querySelector('.link-title-input');
-                const urlInput = linkCard.querySelector('.link-url-input');
-                const toggleInput = linkCard.querySelector('.toggle-input');
-                return {
-                    title: titleInput.value,
-                    url: urlInput.value,
-                    visible: toggleInput.checked
-                };
-            });
-            localStorage.setItem('links', JSON.stringify(links)); // Save links to localStorage
-        }
+    const links = Array.from(document.querySelectorAll('.link-card')).map(linkCard => {
+        const titleInput = linkCard.querySelector('.link-title-input');
+        const urlInput = linkCard.querySelector('.link-url-input');
+        const toggleInput = linkCard.querySelector('.toggle-input');
+        return {
+            title: titleInput.value,
+            url: urlInput.value,
+            visible: toggleInput.checked
+        };
+    });
+    localStorage.setItem('links', JSON.stringify(links)); // Save links to localStorage
+
+    // Save title and subtitle to Firestore
+    const title = document.getElementById('titleInput').value;
+    const subtitle = document.getElementById('subtitleInput').value;
+    saveDataToFirestore(title, subtitle, links, localStorage.getItem('customLink'));
+}
 
     document.getElementById('backButton').addEventListener('click', function() {
         window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
     });
 
+        document.getElementById('saveButton').addEventListener('click', function() {
+            const title = document.getElementById('titleInput').value;
+            const subtitle = document.getElementById('subtitleInput').value;
+            const links = JSON.parse(localStorage.getItem('links')) || [];
+            const username = document.getElementById('customLinkInput').value.trim(); // Retrieve username
+            const kit_url = `https://brandlovrs.me/${encodeURIComponent(username)}`; // Generate kit URL
+
+            // Log the values to check if they are defined
+            console.log({ title, subtitle, links, username, kit_url });
+
+            saveDataToFirestore(title, subtitle, links, username, kit_url); // Pass username and kit_url to save function
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('user'); // This will give you '@username'
+
     document.getElementById('publishButton').addEventListener('click', function() {
     // Retrieve and clean input
-    const customLink = document.getElementById('customLinkInput').value.trim();
+    const username = document.getElementById('customLinkInput').value.trim(); // Renamed to username
 
     // Input validation
-    if (!customLink) {
+    if (!username) {
         alert('Por favor, insira um link personalizado.');
         return;
     }
 
     // Generate the unique URL
     const baseURL = 'https://brandlovrs.me/';
-    const finalURL = baseURL + encodeURIComponent(customLink);
+    const kit_url = baseURL + encodeURIComponent(username); // Renamed to kit_url
 
     // Display the result
-    alert(`Seu Media Kit está disponível em: ${finalURL}`);
-    console.log(`Custom URL generated: ${finalURL}`);
+    alert(`Seu Media Kit está disponível em: ${kit_url}`);
+    console.log(`Custom URL generated: ${kit_url}`);
 });
 
 function handleDragStart(e) {
@@ -275,5 +383,7 @@ document.getElementById('customLinkInput').addEventListener('input', function() 
 });
 
     </script>
+
 </body>
+
 </html>
