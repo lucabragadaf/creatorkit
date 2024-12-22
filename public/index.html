@@ -27,11 +27,6 @@
                 </div>
             </div>
 
-            <div class="title-container">
-                <h1 class="main-title">Personalize o seu Creator Kit</h1>
-                <p class="subtitle">Estas são as primeiras informações que as pessoas irão ler em sua página.</p>
-            </div>
-
         </div>
 
         <div class="preview-card">
@@ -313,40 +308,8 @@
         window.location.href = 'profile-editor.html'; // MUDAR REDIRECIONAMENTO
     });
 
-        document.getElementById('saveButton').addEventListener('click', function() {
-            const title = document.getElementById('titleInput').value;
-            const subtitle = document.getElementById('subtitleInput').value;
-            const links = JSON.parse(localStorage.getItem('links')) || [];
-            const username = document.getElementById('customLinkInput').value.trim(); // Retrieve username
-            const kit_url = `https://brandlovrs.me/${encodeURIComponent(username)}`; // Generate kit URL
-
-            // Log the values to check if they are defined
-            console.log({ title, subtitle, links, username, kit_url });
-
-            saveDataToFirestore(title, subtitle, links, username, kit_url); // Pass username and kit_url to save function
-        });
-
         const params = new URLSearchParams(window.location.search);
         const username = params.get('user'); // This will give you '@username'
-
-    document.getElementById('publishButton').addEventListener('click', function() {
-    // Retrieve and clean input
-    const username = document.getElementById('customLinkInput').value.trim(); // Renamed to username
-
-    // Input validation
-    if (!username) {
-        alert('Por favor, insira um link personalizado.');
-        return;
-    }
-
-    // Generate the unique URL
-    const baseURL = 'https://brandlovrs.me/';
-    const kit_url = baseURL + encodeURIComponent(username); // Renamed to kit_url
-
-    // Display the result
-    alert(`Seu Media Kit está disponível em: ${kit_url}`);
-    console.log(`Custom URL generated: ${kit_url}`);
-});
 
 function handleDragStart(e) {
     draggedCard = this; // Store the dragged card
@@ -365,18 +328,6 @@ function handleDrop(e) {
         this.parentNode.insertBefore(draggedCard, this);
     }
 }
-
-document.getElementById('customLinkInput').addEventListener('input', function() {
-    const customLink = this.value.trim();
-    const baseURL = 'https://creatorkit-304c3.web.app/';
-   const finalURL = baseURL + encodeURIComponent(customLink);
-   
-   // Update the badge text based on the input
-   document.getElementById('linkPreviewText').textContent = customLink ? `creatorkit-304c3.web.app/${customLink}` : 'creatorkit-304c3.web.app/';
-   
-   // Save custom link to localStorage
-   localStorage.setItem('customLink', finalURL); // Store the final URL
-);
     </script>
 
 </body>
