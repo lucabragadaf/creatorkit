@@ -8,7 +8,7 @@
     ],
     "rewrites": [
       {
-        "source": "/@:username",
+        "source": "/@**",
         "destination": "/index.html"
       }
     ]
