@@ -368,32 +368,15 @@ function handleDrop(e) {
 
 document.getElementById('customLinkInput').addEventListener('input', function() {
     const customLink = this.value.trim();
-    const baseURL = 'https://crekit-304c3.web.app/';
-    const finalURL = baseURL + encodeURIComponent(customLink);
-    
-    // Update the badge text based on the input
-    document.getElementById('linkPreviewText').textContent = customLink ? `brandlovrs.me/${customLink}` : 'brandlovrs.me/';
-    
-    // Save custom link to localStorage
-    localStorage.setItem('customLink', finalURL); // Store the final URL
-});
-
-document.addEventListener('DOMContentLoaded', async function() {
-    const path = window.location.pathname;
-    const username = path.split('/')[1]; // Extract username from URL
-
-    if (username) {
-        const querySnapshot = await getDocs(collection(db, "creator-kits"));
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            if (data.username === username) {
-                document.getElementById('previewTitle').textContent = data.title;
-                document.getElementById('previewSubtitle').textContent = data.subtitle;
-                // Add logic to display links
-            }
-        });
-    }
-
+    const baseURL = 'https://creatorkit-304c3.web.app/';
+   const finalURL = baseURL + encodeURIComponent(customLink);
+   
+   // Update the badge text based on the input
+   document.getElementById('linkPreviewText').textContent = customLink ? `creatorkit-304c3.web.app/${customLink}` : 'creatorkit-304c3.web.app/';
+   
+   // Save custom link to localStorage
+   localStorage.setItem('customLink', finalURL); // Store the final URL
+);
     </script>
 
 </body>
