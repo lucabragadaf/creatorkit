@@ -37,7 +37,7 @@
         <div class="preview-card">
 
             <div class="profile-image">
-                <img src="placeholder.png" alt="Profile-image">
+                <img src="/placeholder.png" alt="Profile-image">
             </div>
 
             <h2 class="preview-title" id="previewTitle">Nome</h2>
@@ -71,13 +71,9 @@
             </div>
 
             <div class="button" id="publishButton">
-                <span class="button-text">Publicar Media Kit</span>
+                <span class="button-text">Publicar</span>
             </div>  
-               
-        </div>
 
-        <div class="button" id="saveButton">
-            <span class="button-text">Salvar</span>
         </div>
 
     </div>
@@ -174,7 +170,7 @@
 
         // Load saved title, subtitle, and links from localStorage
         document.addEventListener('DOMContentLoaded', function() {
-            getData(); // Call getData to retrieve data from Firestore
+            // getData(); // Call getData to retrieve data from Firestore
             const savedTitle = localStorage.getItem('title');
             const savedSubtitle = localStorage.getItem('subtitle');
             const savedLinks = JSON.parse(localStorage.getItem('links')) || [];
@@ -372,7 +368,7 @@ function handleDrop(e) {
 
 document.getElementById('customLinkInput').addEventListener('input', function() {
     const customLink = this.value.trim();
-    const baseURL = 'https://brandlovrs.me/';
+    const baseURL = 'https://crekit-304c3.web.app/';
     const finalURL = baseURL + encodeURIComponent(customLink);
     
     // Update the badge text based on the input
@@ -381,6 +377,22 @@ document.getElementById('customLinkInput').addEventListener('input', function() 
     // Save custom link to localStorage
     localStorage.setItem('customLink', finalURL); // Store the final URL
 });
+
+document.addEventListener('DOMContentLoaded', async function() {
+    const path = window.location.pathname;
+    const username = path.split('/')[1]; // Extract username from URL
+
+    if (username) {
+        const querySnapshot = await getDocs(collection(db, "creator-kits"));
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.username === username) {
+                document.getElementById('previewTitle').textContent = data.title;
+                document.getElementById('previewSubtitle').textContent = data.subtitle;
+                // Add logic to display links
+            }
+        });
+    }
 
     </script>
 

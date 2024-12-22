@@ -1,0 +1,313 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
+}
+
+/* Body Styles */
+body {
+    font-family: 'Outfit', sans-serif; /* Font family for the entire document */
+    background-color: #fff; /* Background color */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+}
+
+/* Container Styles */
+.container {
+    max-width: 100%; /* Full width */
+    max-height: 100%; /* Full height */
+    margin: 0 auto; /* Center the container */
+    position: relative; /* Positioning context for child elements */
+    background: #fff; /* Background color */
+    border-radius: 16px; /* Rounded corners */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px; /* Inner spacing */
+    box-sizing: border-box; /* Include padding in width/height */
+    flex: 1; /* Allow the container to grow */
+}
+
+/* Header Styles */
+.header {
+    padding: 30px 27px; /* Inner spacing for header */
+}
+
+.header-top {
+    display: flex; /* Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 24px; /* Space below header */
+    color: #6E7191; /* Text color */
+}
+
+/* Badge Styles */
+.badge {
+    background: #F9FAFB; /* Background color */
+    border: 1px solid #D9DBE8; /* Border color */
+    border-radius: 9999px; /* Fully rounded */
+    padding: 2px 8px; /* Inner spacing */
+    display: inline-flex; /* Inline flex for alignment */
+    align-items: center; /* Center items vertically */
+    line-height: 1; /* Line height */
+}
+
+.badge span {
+    color: #4B5562; /* Text color */
+    font-size: 12px; /* Font size */
+}
+
+/* Icon Styles */
+.icon-small {
+    width: 14px; /* Icon width */
+    height: 14px; /* Icon height */
+    padding: 1px 1px; /* Inner spacing */
+    margin-right: 4px; /* Space to the right */
+}
+
+/* Title Styles */
+.title-container {
+    max-width: 342px; /* Max width for title container */
+}
+
+.main-title {
+    font-size: 20px; /* Font size */
+    font-weight: 500; /* Font weight */
+    color: #14131B; /* Text color */
+    margin-bottom: 16px; /* Space below title */
+    letter-spacing: -0.4px; /* Letter spacing */
+}
+
+.subtitle {
+    font-size: 14px; /* Font size */
+    font-weight: 300; /* Font weight */
+    color: #4E4A66; /* Text color */
+}
+
+/* Preview Card Styles */
+.preview-card {
+    width: 335px; /* Card width */
+    margin: 0 27px; /* Margin on sides */
+    border: 1px solid #D9DBEA; /* Border color */
+    border-radius: 15px; /* Rounded corners */
+    display: flex; /* Flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center items */
+    padding: 20px; /* Inner spacing */
+}
+
+/* Profile Image Styles */
+.profile-image {
+    width: 108px; /* Image width */
+    height: 108px; /* Image height */
+    border-radius: 50%; /* Circular image */
+    overflow: hidden; /* Hide overflow */
+    border: 1px solid #D9DBEA; /* Border color */
+    margin-bottom: 11px; /* Space below image */
+}
+
+.profile-image img {
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the area */
+}
+
+/* Preview Title and Subtitle Styles */
+.preview-title {
+    font-size: 22px; /* Font size */
+    font-weight: 500; /* Font weight */
+    color: #14131B; /* Text color */
+    text-align: center; /* Center text */
+    margin-bottom: 7px; /* Space below title */
+    letter-spacing: -0.4px; /* Letter spacing */
+}
+
+.preview-subtitle {
+    font-size: 13px; /* Font size */
+    font-weight: 300; /* Font weight */
+    color: #4E4A66; /* Text color */
+    text-align: center; /* Center text */
+    margin-bottom: 27px; /* Space below subtitle */
+}
+
+/* Input Container Styles */
+.input-container {
+    margin: 22px 27px; /* Margin around input container */
+}
+
+/* Input Field Styles */
+.input-field {
+    width: 335px; /* Field width */
+    background: #EFF0F7; /* Background color */
+    border-radius: 16px; /* Rounded corners */
+    padding: 10.5px 24px; /* Inner spacing */
+    margin-bottom: 11px; /* Space below field */
+}
+
+.input-label {
+    font-size: 13px; /* Font size */
+    color: #6E7191; /* Text color */
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+.input-value {
+    font-size: 14px; /* Font size */
+    color: #14131B; /* Text color */
+    width: calc(100% - 48px); /* Adjust width for padding */
+    border: none; /* Remove default border */
+    outline: none; /* Remove outline on focus */
+    background: transparent; /* Transparent background */
+}
+
+/* Button Styles */
+.button {
+    margin-top: auto; /* Push to bottom */
+    height: 51px; /* Button height */
+    width: 335px; /* Button width */
+    background: #14142A; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    display: flex; /* Flexbox for layout */
+    justify-content: center; /* Center text */
+    align-items: center; /* Center text */
+    margin: 22px 0; /* Margin above and below */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.linkButton {
+    height: 51px; /* Button height */
+    width: calc(100% - 54px); /* Width calculation */
+    background: #14142A; /* Background color */
+    border-radius: 10px; /* Rounded corners */
+    display: flex; /* Flexbox for layout */
+    justify-content: center; /* Center text */
+    align-items: center; /* Center text */
+    margin: 10px 27px; /* Margin around button */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.button-text {
+    color: #fff; /* Text color */
+    font-size: 16px; /* Font size */
+    font-weight: 500; /* Font weight */
+}
+
+/* Link Container Styles */
+.link-container {
+    margin: 22px 27px; /* Margin around link container */
+}
+
+/* Link Card Styles */
+.link-card {
+    background: #fff; /* Background color */
+    border: 1px solid #D9DBEA; /* Border color */
+    border-radius: 16px; /* Rounded corners */
+    padding: 16px; /* Inner spacing */
+    margin: 22px 0; /* Margin above and below */
+    display: flex; /* Flexbox for layout */
+    align-items: center; /* Center items */
+    width: 335px; /* Card width */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+/* Drag Handle Styles */
+.drag-handle {
+    display: grid; /* Grid layout for dots */
+    grid-template-columns: repeat(2, 4px); /* Two columns of dots */
+    gap: 3px; /* Space between dots */
+    margin-right: 16px; /* Space to the right */
+}
+
+.drag-dot {
+    width: 4px; /* Dot width */
+    height: 4px; /* Dot height */
+    background: #BDBFD5; /* Dot color */
+    border-radius: 50%; /* Round dots */
+}
+
+/* Link Content Styles */
+.link-content {
+    flex: 1; /* Allow to grow */
+}
+
+.link-title {
+    font-size: 16px; /* Font size */
+    font-weight: 500; /* Font weight */
+    color: #14142A; /* Text color */
+    margin-bottom: 4px; /* Space below title */
+}
+
+/* Input Styles for Links */
+.link-title-input,
+.link-url-input {
+    border: none; /* Remove default border */
+    outline: none; /* Remove outline on focus */
+    background: transparent; /* Transparent background */
+    font-family: 'Outfit', sans-serif; /* Font family */
+}
+
+.link-title-input {
+    font-size: 16px; /* Font size */
+    color: #14142A; /* Text color */
+    width: 100%; /* Full width */
+    font-weight: 500; /* Font weight */
+    padding: 0; /* No padding */
+    margin: 0; /* No margin */
+    box-shadow: none; /* No shadow */
+}
+
+.link-url-input {
+    font-size: 11px; /* Font size */
+    font-weight: 300; /* Font weight */
+    color: #4E4B66; /* Text color */
+}
+
+/* Link URL Styles */
+.link-url {
+    font-size: 11px; /* Font size */
+    font-weight: 300; /* Font weight */
+    color: #4E4B66; /* Text color */
+}
+
+/* Toggle Switch Styles */
+.toggle {
+    position: relative; /* Positioning context for toggle */
+    width: 48px; /* Width of the switch */
+    height: 27px; /* Height of the switch */
+}
+
+.toggle-input {
+    opacity: 0; /* Hide the checkbox */
+    position: absolute; /* Position it off-screen */
+}
+
+.toggle-label {
+    display: block; /* Block display */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background: #D9DBEA; /* Background color when off */
+    border-radius: 40px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background 0.3s; /* Smooth transition */
+}
+
+.toggle-handle {
+    position: absolute; /* Position relative to toggle */
+    top: 2px; /* Position the handle */
+    left: 2px; /* Position the handle */
+    width: 23px; /* Width of the handle */
+    height: 23px; /* Height of the handle */
+    background: #fff; /* Handle color */
+    border-radius: 50%; /* Round handle */
+    transition: transform 0.3s; /* Smooth transition */
+}
+
+/* Change styles when the toggle is checked */
+.toggle-input:checked + .toggle-label {
+    background: #14142A; /* Background color when on */
+}
+
+.toggle-input:checked + .toggle-label .toggle-handle {
+    transform: translateX(21px); /* Move handle to the right */
+}
